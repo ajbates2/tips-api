@@ -3,5 +3,5 @@ TRUNCATE
   tips_roles,
   tips_jobs,
   tips_shifts,
-  tips_paychecks,
+  tips_paychecks
   RESTART IDENTITY CASCADE;
