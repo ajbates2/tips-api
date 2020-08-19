@@ -43,6 +43,12 @@ const UsersService = {
             date_created: new Date(user.date_created),
         }
     },
+    updateFirstEntry(db, user_id) {
+        return db
+            .update('first_entry = true')
+            .into('tips_users')
+            .where('id', user_id)
+    },
 }
 
 module.exports = UsersService

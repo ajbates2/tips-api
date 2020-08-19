@@ -11,7 +11,8 @@ const ShiftsService = {
                     `json_strip_nulls(
                       json_build_object(
                         'id', usr.id,
-                        'name', usr.user_name
+                        'name', usr.user_name,
+                        'first_entry', usr.first_entry
                         )
                     ) AS "user"`
                 ),
@@ -68,7 +69,7 @@ const ShiftsService = {
             .then(shiftData =>
                 ShiftsService.getByUserId(db, shiftData.user_id)
             )
-    }
+    },
 
 }
 

@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config')
 const shiftsRouter = require('./shifts/shifts-router')
 const usersRouter = require('./users/users-router')
 const authRouter = require('./auth/auth-router')
+const paychecksRouter = require('./paychecks/paychecks-router')
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/shifts', shiftsRouter)
+app.use('/api/paychecks', paychecksRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 

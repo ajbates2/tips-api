@@ -1,0 +1,48 @@
+const express = require('express')
+const path = require('path')
+const { requireAuth } = require('../middleware/jwt-auth')
+const PaychecksService = require('./paychecks-service')
+
+const paychecksRouter = express.Router()
+const jsonBodyParser = express.json()
+
+paychecksRouter
+    .route('/:user_id')
+    //.all(requireAuth)
+    //.all(checkShiftsExists)
+    .get((req, res, next) => {
+        PaychecksService.getByUserId(
+            req.app.get('db'),
+            req.params.user_id
+        )
+            .then(checks => {
+                res.json(checks)
+            })
+            .catch(next)
+    })
+    .post(jsonBodyParser, (req, res, next) => {
+        const { check_total, date_received, job_id } = req.body
+        const newCheck = { check_total, date_received, job_id }
+
+        for (const [key, value] of Object.entries(newCheck))
+            if (value == null)
+                return res.status(400).json({
+                    error: `Missing '${key}' in request body`
+                })
+
+        newCheck.user_id = req.user.id
+
+        PaychecksService.insertCheckInfo(
+            req.app.get('db'),
+            newCheck
+        )
+            .then(checkInfo => {
+                res
+                    .status(201)
+                    .location(path.posix.join(req.originalUrl, `/${checkInfo.id}`))
+                    .json(checkInfo)
+            })
+            .catch(next)
+    })
+
+module.exports = paychecksRouter
