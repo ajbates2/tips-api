@@ -9,7 +9,6 @@ const jsonBodyParser = express.json()
 paychecksRouter
     .route('/:user_id')
     //.all(requireAuth)
-    //.all(checkShiftsExists)
     .get((req, res, next) => {
         PaychecksService.getByUserId(
             req.app.get('db'),

@@ -49,6 +49,45 @@ const UsersService = {
             .into('tips_users')
             .where('id', user_id)
     },
+    getUserData(db, user_id) {
+        return db
+            .from('tips_users as usr')
+            .select(
+                'usr.id',
+                'usr.user_name',
+                'usr.first_entry',
+                db.raw(
+                    `json_build_array(
+                        json_build_object(
+                            'id', job.id,
+                            'name', job.job_name
+                        )
+                    ) as "jobs"`
+                ),
+                db.raw(
+                    `json_build_array(
+                        json_build_object(
+                            'id', role.id,
+                            'name', role.role_name,
+                            'hourly_rate', role.hourly_rate,
+                            'job_id', role.job_id
+                        )
+                    ) as "roles"`
+                ),
+            )
+            .where('usr.id', user_id)
+            .innerJoin(
+                'tips_jobs as job',
+                'job.user_id',
+                'usr.id'
+            )
+            .innerJoin(
+                'tips_roles as role',
+                'role.user_id',
+                'usr.id'
+            )
+            .groupBy('usr.id', 'job.id', 'role.id')
+    }
 }
 
 module.exports = UsersService

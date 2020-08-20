@@ -6,7 +6,7 @@ const usersRouter = express.Router()
 const jsonBodyParser = express.json()
 
 usersRouter
-    .post('/', jsonBodyParser, (req, res, next) => {
+    .post(jsonBodyParser, (req, res, next) => {
         const { password, user_name, email } = req.body
 
         for (const field of ['email', 'user_name', 'password'])
@@ -52,5 +52,17 @@ usersRouter
             .catch(next)
     })
 
+usersRouter
+    .route('/:id')
+    .get((req, res, next) => {
+        UsersService.getUserData(
+            req.app.get('db'),
+            req.params.id
+        )
+            .then(user => {
+                res.json(user)
+            })
+            .catch(next)
+    })
 
 module.exports = usersRouter
