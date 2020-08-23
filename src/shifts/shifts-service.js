@@ -47,6 +47,8 @@ const ShiftsService = {
                 'job.id'
             )
             .groupBy('shift.id', 'role.id', 'job.id', 'usr.id')
+            .orderBy('shift.date_worked', 'DESC')
+            .orderBy('shift.id', 'DESC')
     },
 
     getById(db, id) {
@@ -58,6 +60,13 @@ const ShiftsService = {
             )
             .where('shift.user_id', id)
             .first()
+    },
+
+    deleteShift(db, shiftId) {
+        return db
+            .from('tips_shifts AS shift')
+            .where('shift.id', shiftId)
+            .delete()
     },
 
     insertShiftInfo(db, newShiftInfo) {

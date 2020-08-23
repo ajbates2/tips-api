@@ -56,37 +56,28 @@ const UsersService = {
                 'usr.id',
                 'usr.user_name',
                 'usr.first_entry',
-                db.raw(
-                    `json_build_array(
-                        json_build_object(
-                            'id', job.id,
-                            'name', job.job_name
-                        )
-                    ) as "jobs"`
-                ),
-                db.raw(
-                    `json_build_array(
-                        json_build_object(
-                            'id', role.id,
-                            'name', role.role_name,
-                            'hourly_rate', role.hourly_rate,
-                            'job_id', role.job_id
-                        )
-                    ) as "roles"`
-                ),
             )
             .where('usr.id', user_id)
-            .innerJoin(
-                'tips_jobs as job',
-                'job.user_id',
-                'usr.id'
+    },
+    getRoleData(db, user_id) {
+        return db
+            .from('tips_roles as role')
+            .select(
+                'role.id',
+                'role.job_id',
+                'role.role_name',
+                'role.hourly_rate'
             )
-            .innerJoin(
-                'tips_roles as role',
-                'role.user_id',
-                'usr.id'
+            .where('role.user_id', user_id)
+    },
+    getJobData(db, user_id) {
+        return db
+            .from('tips_jobs as job')
+            .select(
+                'job.id',
+                'job.job_name'
             )
-            .groupBy('usr.id', 'job.id', 'role.id')
+            .where('job.user_id', user_id)
     }
 }
 

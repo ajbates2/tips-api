@@ -8,7 +8,7 @@ const jsonBodyParser = express.json()
 
 shiftsRouter
     .route('/:user_id')
-    //.all(requireAuth)
+    .all(requireAuth)
     //.all(checkShiftsExists)
     .get((req, res, next) => {
         ShiftsService.getByUserId(
@@ -20,8 +20,11 @@ shiftsRouter
             })
             .catch(next)
     })
+
+shiftsRouter
+    .route('/')
     .post(jsonBodyParser, (req, res, next) => {
-        const { tips, hours, date_worked, job_id, role_id } = req.body
+        const { tips, hours, date_worked, job_id, role_id, user_id } = req.body
         const newShift = { tips, hours, date_worked, job_id, role_id, user_id }
 
         for (const [key, value] of Object.entries(newShift))
@@ -29,8 +32,6 @@ shiftsRouter
                 return res.status(400).json({
                     error: `Missing '${key}' in request body`
                 })
-
-        newShift.user_id = req.user.id
 
         ShiftsService.insertShiftInfo(
             req.app.get('db'),
@@ -41,6 +42,21 @@ shiftsRouter
                     .status(201)
                     .location(path.posix.join(req.originalUrl, `/${shiftInfo.id}`))
                     .json(shiftInfo)
+            })
+            .catch(next)
+    })
+
+shiftsRouter
+    .route('/:shiftId')
+    .all(requireAuth)
+    .delete((req, res, next) => {
+        ShiftsService.deleteShift(
+            req.app.get('db'),
+            req.params.shiftId
+        )
+            .then(() => {
+                res.json({ message: `shift with id ${req.params.shiftId} was deleted` })
+                res.status(204).end()
             })
             .catch(next)
     })

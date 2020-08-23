@@ -53,13 +53,17 @@ usersRouter
     })
 
 usersRouter
-    .route('/:id')
+    .route('/:user_id')
     .get((req, res, next) => {
-        UsersService.getUserData(
-            req.app.get('db'),
-            req.params.id
-        )
-            .then(user => {
+        Promise.all([
+            UsersService.getUserData(req.app.get('db'), req.params.user_id),
+            UsersService.getJobData(req.app.get('db'), req.params.user_id),
+            UsersService.getRoleData(req.app.get('db'), req.params.user_id)
+        ])
+            .then((values) => {
+                let user = { ...values[0][0] };
+                user.jobs = values[1];
+                user.roles = values[2];
                 res.json(user)
             })
             .catch(next)
