@@ -8,7 +8,7 @@ const jsonBodyParser = express.json()
 
 paychecksRouter
     .route('/:user_id')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
         PaychecksService.getByUserId(
             req.app.get('db'),
@@ -19,6 +19,9 @@ paychecksRouter
             })
             .catch(next)
     })
+paychecksRouter
+    .route(`/`)
+    .all(requireAuth)
     .post(jsonBodyParser, (req, res, next) => {
         const { check_total, date_received, job_id } = req.body
         const newCheck = { check_total, date_received, job_id }

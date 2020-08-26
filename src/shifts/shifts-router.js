@@ -23,6 +23,7 @@ shiftsRouter
 
 shiftsRouter
     .route('/')
+    .all(requireAuth)
     .post(jsonBodyParser, (req, res, next) => {
         const { tips, hours, date_worked, job_id, role_id, user_id } = req.body
         const newShift = { tips, hours, date_worked, job_id, role_id, user_id }

@@ -41,6 +41,7 @@ const UsersService = {
             email: xss(user.email),
             user_name: xss(user.user_name),
             date_created: new Date(user.date_created),
+            password: user.password
         }
     },
     updateFirstEntry(db, user_id) {
@@ -66,7 +67,7 @@ const UsersService = {
                 'role.id',
                 'role.job_id',
                 'role.role_name',
-                'role.hourly_rate'
+                'role.hourly_rate',
             )
             .where('role.user_id', user_id)
     },

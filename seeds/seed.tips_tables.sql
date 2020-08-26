@@ -9,7 +9,7 @@ TRUNCATE
 INSERT INTO tips_users (user_name, email, password, first_entry)
 VALUES
   ('AJ Bates', 'aj.bates2.92@gmail.com', '$2y$12$vSt7Xzz3eSoEZ/RNskqsgeZCBaswVNuQ65et5.SOklHykOTkFHAx.', true),
-  ('Demo', 'abc@demo.com', '$2y$12$b0xFftaz8oDBPzN4.H5gBeMk9UjwA9HEeKyxA/HK.L/FwRGpqARg2', true);
+  ('Demo', 'foo@bar.com', '$2y$12$b0xFftaz8oDBPzN4.H5gBeMk9UjwA9HEeKyxA/HK.L/FwRGpqARg2', true);
 
 INSERT INTO tips_jobs (job_name, user_id)
 VALUES
