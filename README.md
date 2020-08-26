@@ -12,7 +12,7 @@ Complete the following steps to start a new project (NEW-PROJECT-NAME):
 4. Install the node dependencies `npm install`
 5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
 6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
-7. Update `DB_URL`  in `.env` and `config.js`
+7. Update `DATABASE_URL`  in `.env` and `config.js`
 8. .sql files in migrations and seeds directories are only examples, update for new database and tables.
 
 ## Scripts
