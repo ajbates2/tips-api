@@ -47,6 +47,13 @@ const PaychecksService = {
             .then(checkData =>
                 PaychecksService.getByUserId(db, checkData.user_id)
             )
+    },
+
+    deleteCheck(db, checkId) {
+        return db
+            .from('tips_paychecks AS check')
+            .where('check.id', checkId)
+            .delete()
     }
 
 }

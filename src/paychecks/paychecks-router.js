@@ -46,5 +46,19 @@ paychecksRouter
             })
             .catch(next)
     })
+paychecksRouter
+    .route('/:checkId')
+    .all(requireAuth)
+    .delete((req, res, next) => {
+        PaychecksService.deleteCheck(
+            req.app.get('db'),
+            req.params.checkId
+        )
+            .then(() => {
+                res.json({ message: `paycheck with id ${req.params.checkId} was deleted` })
+                res.status(204).end()
+            })
+            .catch(next)
+    })
 
 module.exports = paychecksRouter
