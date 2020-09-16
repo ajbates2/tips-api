@@ -2,9 +2,9 @@
 
 API server for 'tips.' project
 
-<a href='https://github.com/ajbates2/tips'>Tips Repo</a>
+<a href='https://github.com/ajbates2/tips' target='_blank'>Tips Repo</a>
 
-<a href='https://tips-sigma.vercel.app/'>Live App</a>
+<a href='https://tips-sigma.vercel.app/' target='_blank'>Live App</a>
 
 ## Endpoints
 
