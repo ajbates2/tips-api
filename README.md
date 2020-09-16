@@ -2,6 +2,10 @@
 
 API server for 'tips.' project
 
+<a href='https://github.com/ajbates2/tips'>Tips Repo</a>
+
+<a href='https://tips-sigma.vercel.app/'>Live App</a>
+
 ## Endpoints
 
 ```/shifts and /paychecks```
