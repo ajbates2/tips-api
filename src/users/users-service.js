@@ -44,19 +44,12 @@ const UsersService = {
             password: user.password
         }
     },
-    updateFirstEntry(db, user_id) {
-        return db
-            .update('first_entry = true')
-            .into('tips_users')
-            .where('id', user_id)
-    },
     getUserData(db, user_id) {
         return db
             .from('tips_users as usr')
             .select(
                 'usr.id',
                 'usr.user_name',
-                'usr.first_entry',
             )
             .where('usr.id', user_id)
     },

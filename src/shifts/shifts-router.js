@@ -72,12 +72,6 @@ async function checkShiftsExists(req, res, next) {
             req.params.user_id
         )
 
-        if (!shifts.user.first_entry) {
-            return res.status(204).json({
-                error: 'Add some shift info with the plus sign below'
-            })
-        }
-
         if (!shifts)
             return res.status(404).json({
                 error: `Could not find data`
