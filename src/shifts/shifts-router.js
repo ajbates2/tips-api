@@ -26,13 +26,15 @@ shiftsRouter
     .all(requireAuth)
     .post(jsonBodyParser, (req, res, next) => {
         const { tips, hours, date_worked, job_id, role_id, user_id } = req.body
-        const newShift = { tips, hours, date_worked, job_id, role_id, user_id }
+        const newShift = { tips, hours, date_worked, job_id, role_id }
 
         for (const [key, value] of Object.entries(newShift))
             if (value == null)
                 return res.status(400).json({
                     error: `Missing '${key}' in request body`
                 })
+
+        newShift.user_id = req.user.id
 
         ShiftsService.insertShiftInfo(
             req.app.get('db'),

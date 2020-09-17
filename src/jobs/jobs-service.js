@@ -8,6 +8,7 @@ const JobsService = {
             .select(
                 'job.id',
                 'job.job_name',
+                'job.user_id'
             )
             .where('job.user_id', user_id)
     },
