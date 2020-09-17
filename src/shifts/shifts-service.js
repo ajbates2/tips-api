@@ -12,7 +12,6 @@ const ShiftsService = {
                       json_build_object(
                         'id', usr.id,
                         'name', usr.user_name,
-                        'first_entry', usr.first_entry
                         )
                     ) AS "user"`
                 ),

@@ -6,10 +6,10 @@ TRUNCATE
   tips_paychecks
   RESTART IDENTITY CASCADE;
 
-INSERT INTO tips_users (user_name, email, password, first_entry)
+INSERT INTO tips_users (user_name, email, password)
 VALUES
-  ('AJ Bates', 'aj.bates2.92@gmail.com', '$2y$12$vSt7Xzz3eSoEZ/RNskqsgeZCBaswVNuQ65et5.SOklHykOTkFHAx.', true),
-  ('Demo', 'foo@bar.com', '$2y$12$b0xFftaz8oDBPzN4.H5gBeMk9UjwA9HEeKyxA/HK.L/FwRGpqARg2', true);
+  ('AJ Bates', 'aj.bates2.92@gmail.com', '$2y$12$vSt7Xzz3eSoEZ/RNskqsgeZCBaswVNuQ65et5.SOklHykOTkFHAx.'),
+  ('Demo', 'foo@bar.com', '$2y$12$b0xFftaz8oDBPzN4.H5gBeMk9UjwA9HEeKyxA/HK.L/FwRGpqARg2');
 
 INSERT INTO tips_jobs (job_name, user_id)
 VALUES
