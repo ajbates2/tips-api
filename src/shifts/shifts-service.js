@@ -11,7 +11,7 @@ const ShiftsService = {
                     `json_strip_nulls(
                       json_build_object(
                         'id', usr.id,
-                        'name', usr.user_name,
+                        'name', usr.user_name
                         )
                     ) AS "user"`
                 ),
