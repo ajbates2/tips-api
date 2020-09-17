@@ -30,6 +30,7 @@ To get set up locally do the following
     1. Clone this repo to your machine, cd into the dir and run npm install
     2. Create the dev and test DB's `createdb -U USER -d tips` and `createdb -U USER -d tips-test`
     3. create an .env file in root project with the following
+    
     ````
     NODE_ENV=development
     PORT=8000
