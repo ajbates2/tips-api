@@ -7,13 +7,13 @@ const shiftsRouter = express.Router()
 const jsonBodyParser = express.json()
 
 shiftsRouter
-    .route('/:user_id')
+    .route('/all')
     .all(requireAuth)
-    //.all(checkShiftsExists)
+    .all(checkShiftsExists)
     .get((req, res, next) => {
         ShiftsService.getByUserId(
             req.app.get('db'),
-            req.params.user_id
+            req.user.id
         )
             .then(shifts => {
                 res.json(shifts)
@@ -69,7 +69,7 @@ async function checkShiftsExists(req, res, next) {
     try {
         const shifts = await ShiftsService.getById(
             req.app.get('db'),
-            req.params.user_id
+            req.user.id
         )
 
         if (!shifts)
