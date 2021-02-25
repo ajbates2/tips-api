@@ -11,11 +11,12 @@ paychecksRouter
 	.all(requireAuth)
 	.get((req, res, next) => {
 		PaychecksService.getByUserId(req.app.get('db'), req.user.id)
-			.then(checks => {
+			.then((checks) => {
 				res.json(checks);
 			})
 			.catch(next);
 	});
+
 paychecksRouter
 	.route(`/`)
 	.all(requireAuth)
@@ -41,6 +42,7 @@ paychecksRouter
 			})
 			.catch(next);
 	});
+
 paychecksRouter
 	.route('/:checkId')
 	.all(requireAuth)
@@ -57,9 +59,28 @@ paychecksRouter
 	.get((req, res, next) => {
 		PaychecksService.getByCheckId(req.app.get('db'), req.params.checkId)
 			.then((check) => {
-				res.json(check).status(200)
+				res.json(check).status(200);
 			})
-			.catch(next)
+			.catch(next);
 	})
+	.patch(jsonBodyParser, (req, res, next) => {
+		const { check_total, date_received, job_id } = req.body;
+		const updatedCheck = { check_total, date_received, job_id };
+
+		for (const [key, value] of Object.entries(updatedCheck))
+			if (value == null)
+				return res.status(400).json({
+					error: `Missing '${key}' in request body`,
+				});
+
+		updatedCheck.user_id = req.user.id;
+		updatedCheck.id = req.params.checkId
+
+		PaychecksService.updatePaycheck(req.app.get('db'), updatedCheck)
+			.then((check) => {
+				res.status(200).json(check);
+			})
+			.catch(next);
+	});
 
 module.exports = paychecksRouter;

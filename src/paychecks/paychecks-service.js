@@ -36,19 +36,17 @@ const PaychecksService = {
             .returning('*')
     },
 
-    updatePaycheck(db, check) {
+    updatePaycheck(db, newCheck) {
 		return db
 			.from('tips_paychecks as check')
 			.update({
-				tips: check.tips,
-				hours: check.hours,
-				date_worked: check.date_worked,
-				job_id: check.job_id,
-				role_id: check.role_id,
+				check_total: newCheck.check_total,
+                date_received: newCheck.date_received,
+                job_id: newCheck.job_id
 			})
-			.where('check.id', check.id)
+			.where('check.id', newCheck.id)
 			.then(() => {
-				return this.getByCheckId(db, check.id);
+				return this.getByCheckId(db, newCheck.id);
 			});
 	},
 
