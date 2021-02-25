@@ -11,7 +11,7 @@ paychecksRouter
 	.all(requireAuth)
 	.get((req, res, next) => {
 		PaychecksService.getByUserId(req.app.get('db'), req.user.id)
-			.then((checks) => {
+			.then(checks => {
 				res.json(checks);
 			})
 			.catch(next);
@@ -52,7 +52,14 @@ paychecksRouter
 				});
 				res.status(204).end();
 			})
-			.catch(console.log('something'));
-	});
+			.catch(next);
+	})
+	.get((req, res, next) => {
+		PaychecksService.getByCheckId(req.app.get('db'), req.params.checkId)
+			.then((check) => {
+				res.json(check).status(200)
+			})
+			.catch(next)
+	})
 
 module.exports = paychecksRouter;

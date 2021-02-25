@@ -28,13 +28,29 @@ const PaychecksService = {
             .orderBy('check.date_received', 'DESC')
     },
 
-    getById(db, id) {
+    getByCheckId(db, id) {
         return db
             .from('tips_paychecks AS check')
             .where('check.id', id)
             .first()
             .returning('*')
     },
+
+    updatePaycheck(db, check) {
+		return db
+			.from('tips_paychecks as check')
+			.update({
+				tips: check.tips,
+				hours: check.hours,
+				date_worked: check.date_worked,
+				job_id: check.job_id,
+				role_id: check.role_id,
+			})
+			.where('check.id', check.id)
+			.then(() => {
+				return this.getByCheckId(db, check.id);
+			});
+	},
 
     insertCheckInfo(db, newCheckInfo) {
         return db
