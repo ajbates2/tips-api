@@ -47,7 +47,6 @@ const ShiftsService = {
             )
             .groupBy('shift.id', 'role.id', 'job.id', 'usr.id')
             .orderBy('shift.date_worked', 'DESC')
-            .orderBy('shift.id', 'DESC')
     },
 
     getById(db, id) {

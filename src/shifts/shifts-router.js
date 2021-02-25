@@ -64,7 +64,6 @@ shiftsRouter
             .catch(next)
     })
 
-/* async/await syntax for promises */
 async function checkShiftsExists(req, res, next) {
     try {
         const shifts = await ShiftsService.getById(

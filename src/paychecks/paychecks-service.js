@@ -25,17 +25,15 @@ const PaychecksService = {
                 'job.id'
             )
             .groupBy('check.id', 'job.id')
+            .orderBy('check.date_received', 'DESC')
     },
 
     getById(db, id) {
         return db
-            .from('tips_shifts AS shift')
-            .select(
-                'shift.id',
-                'shift.user_id'
-            )
-            .where('shift.user_id', id)
+            .from('tips_paychecks AS check')
+            .where('check.id', id)
             .first()
+            .returning('*')
     },
 
     insertCheckInfo(db, newCheckInfo) {
