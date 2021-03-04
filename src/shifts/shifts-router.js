@@ -10,7 +10,8 @@ shiftsRouter
 	.route('/all')
 	.all(requireAuth)
 	.get((req, res, next) => {
-		ShiftsService.getByUserId(req.app.get('db'), req.user.id)
+		ShiftsService.getAllShifts(req.app.get('db'))
+			.where('shift.user_id', req.user.id)
 			.then((shifts) => {
 				res.json(shifts);
 			})
@@ -21,7 +22,8 @@ shiftsRouter
 	.route('/last/:num')
 	.all(requireAuth)
 	.get((req, res, next) => {
-		ShiftsService.getByUserId(req.app.get('db'), req.user.id)
+		ShiftsService.getAllShifts(req.app.get('db'))
+			.where('shift.user_id', req.user.id)
 			.limit(Number(req.params.num))
 			.then((shifts) => {
 				res.json(shifts);

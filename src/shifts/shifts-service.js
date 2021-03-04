@@ -1,7 +1,7 @@
 const xss = require('xss');
 
 const ShiftsService = {
-	getByUserId(db, user_id) {
+	getAllShifts(db, user_id) {
 		return db
 			.from('tips_shifts AS shift')
 			.select(
@@ -16,6 +16,14 @@ const ShiftsService = {
 				),
 				'shift.tips',
 				'shift.hours',
+				db.raw(
+					`json_build_object(
+						'work_day', shift.work_day,
+						'work_week', shift.work_week,
+						'work_month', shift.work_month,
+						'work_year', shift.work_year
+					) AS "date"`
+				),
 				'shift.date_worked',
 				db.raw(
 					`json_strip_nulls(
@@ -28,12 +36,11 @@ const ShiftsService = {
                     ) AS "role"`
 				)
 			)
-			.where('shift.user_id', user_id)
 			.leftJoin('tips_users as usr', 'shift.user_id', 'usr.id')
 			.leftJoin('tips_roles as role', 'shift.role_id', 'role.id')
 			.innerJoin('tips_jobs as job', 'role.job_id', 'job.id')
 			.groupBy('shift.id', 'role.id', 'job.id', 'usr.id')
-			.orderBy('shift.date_worked', 'DESC')
+			.orderBy('shift.date_worked', 'DESC');
 	},
 
 	getByShiftId(db, id) {
@@ -42,7 +49,7 @@ const ShiftsService = {
 			.select('*')
 			.where('shift.id', id)
 			.first()
-            .then(data => data)
+			.then((data) => data);
 	},
 
 	updateShift(db, shift) {
@@ -61,6 +68,19 @@ const ShiftsService = {
 			});
 	},
 
+	addDates(db, id, dates) {
+		return db
+			.from('tips_shifts as shift')
+			.where('shift.id', id)
+			.returning('*')
+			.update({
+				work_day: dates.work_day,
+				work_week: dates.work_week,
+				work_month: dates.work_month,
+				work_year: dates.work_year
+		});
+	},
+
 	deleteShift(db, shiftId) {
 		return db
 			.from('tips_shifts AS shift')
@@ -73,10 +93,7 @@ const ShiftsService = {
 			.insert(newShiftInfo)
 			.into('tips_shifts')
 			.returning('*')
-			.then(([shiftData]) => shiftData)
-			.then((shiftData) =>
-				ShiftsService.getByUserId(db, shiftData.user_id)
-			);
+			.then(([shiftData]) => shiftData);
 	},
 };
 

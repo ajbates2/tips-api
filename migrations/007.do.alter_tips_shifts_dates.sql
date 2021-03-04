@@ -6,3 +6,6 @@ ALTER TABLE tips_shifts
 
 ALTER TABLE tips_shifts
     ADD COLUMN work_month TEXT;
+
+ALTER TABLE tips_shifts
+    ADD COLUMN work_year TEXT;

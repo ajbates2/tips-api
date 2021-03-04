@@ -6,3 +6,6 @@ ALTER TABLE tips_roles
 
 ALTER TABLE tips_roles
     DROP COLUMN IF EXISTS work_week;
+
+ALTER TABLE tips_roles
+    DROP COLUMN IF EXISTS work_year;

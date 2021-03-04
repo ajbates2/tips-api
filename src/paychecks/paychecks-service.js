@@ -8,6 +8,8 @@ const PaychecksService = {
             .select(
                 'check.id',
                 'check.check_total',
+                'check.work_month',
+                'check.work_year',
                 'check.date_received',
                 db.raw(
                     `json_strip_nulls(
