@@ -1,13 +1,10 @@
 const express = require('express');
-const path = require('path');
 const ShiftsService = require('./shifts-service');
-const { requireAuth } = require('../middleware/jwt-auth');
-const moment = require('moment')
+const moment = require('moment');
 
-const patchRouter = express.Router();
-const jsonBodyParser = express.json();
+const shiftPatchRouter = express.Router();
 
-patchRouter
+shiftPatchRouter
 	.route('/all')
 	.patch((req, res, next) => {
 		ShiftsService.getAllShifts(req.app.get('db'))
@@ -22,9 +19,9 @@ patchRouter
                     ShiftsService.addDates(req.app.get('db'), shift.id, dates)
                         .then(next)
                 }
+                res.json('patched')
 			})
-            .then(shifts => res.json(shifts))
 			.catch(next);
 	});
 
-module.exports = patchRouter
+module.exports = shiftPatchRouter

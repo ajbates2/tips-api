@@ -19,7 +19,7 @@ shiftsRouter
 	});
 
 shiftsRouter
-	.route('/last/:num')
+	.route('/limit/:num')
 	.all(requireAuth)
 	.get((req, res, next) => {
 		ShiftsService.getAllShifts(req.app.get('db'))

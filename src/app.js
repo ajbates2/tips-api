@@ -10,7 +10,8 @@ const authRouter = require('./auth/auth-router')
 const paychecksRouter = require('./paychecks/paychecks-router')
 const jobsRouter = require('./jobs/jobs-router')
 const rolesRouter = require('./roles/roles-router')
-const patchRouter = require('./shifts/patchrouter')
+const shiftPatchRouter = require('./shifts/shift-patch-router')
+const checkPatchRouter = require('./paychecks/check-patch-router')
 
 const app = express()
 
@@ -32,7 +33,8 @@ app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/jobs', jobsRouter)
 app.use('/api/roles', rolesRouter)
-app.use('/api/shifts/patch', patchRouter)
+app.use('/api/shifts/patch', shiftPatchRouter)
+app.use('/api/paychecks/patch', checkPatchRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

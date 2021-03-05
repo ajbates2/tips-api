@@ -2,7 +2,7 @@ const xss = require('xss')
 
 const PaychecksService = {
 
-    getByUserId(db, user_id) {
+    getAllChecks(db) {
         return db
             .from('tips_paychecks AS check')
             .select(
@@ -20,7 +20,6 @@ const PaychecksService = {
                     ) AS "job"`
                 ),
             )
-            .where('check.user_id', user_id)
             .leftJoin(
                 'tips_jobs as job',
                 'check.job_id',
@@ -62,6 +61,17 @@ const PaychecksService = {
                 PaychecksService.getByUserId(db, checkData.user_id)
             )
     },
+
+    addDates(db, id, dates) {
+		return db
+			.from('tips_paychecks as check')
+			.where('check.id', id)
+			.returning('*')
+			.update({
+				work_month: dates.work_month,
+				work_year: dates.work_year
+		});
+	},
 
     deleteCheck(db, checkId) {
         return db

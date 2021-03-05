@@ -10,7 +10,21 @@ paychecksRouter
 	.route('/all')
 	.all(requireAuth)
 	.get((req, res, next) => {
-		PaychecksService.getByUserId(req.app.get('db'), req.user.id)
+		PaychecksService.getAllChecks(req.app.get('db'))
+			.where('check.user_id', req.user.id)
+			.then((checks) => {
+				res.json(checks);
+			})
+			.catch(next);
+	});
+
+paychecksRouter
+	.route('/limit/:num')
+	.all(requireAuth)
+	.get((req, res, next) => {
+		PaychecksService.getAllChecks(req.app.get('db'))
+			.where('check.user_id', req.user.id)
+			.limit(Number(req.params.num))
 			.then((checks) => {
 				res.json(checks);
 			})
