@@ -7,5 +7,7 @@ module.exports = {
         ? process.env.TEST_DATABASE_URL
         : process.env.DATABASE_URL,
     "ssl": !!process.env.SSL,
-    "password": "pass"
+    "password": (process.env.NODE_ENV === 'development')
+        ? 'pass'
+        : process.env.PASSWORD
 }
