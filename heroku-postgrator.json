@@ -1,0 +1,11 @@
+{
+    "migrationDirectory": "migrations",
+    "driver": "pg",
+    "host": "ec2-54-146-4-66.compute-1.amazonaws.com",
+    "database": "d8qsc1nf7gcjl4",
+    "port": "5432",
+    "connectionString": "postgres://amaqfwklqaivvy:82aead1798cdafffcea8daae83321922d100c0b59c1fa47b317ed17266975e7b@ec2-54-146-4-66.compute-1.amazonaws.com:5432/d8qsc1nf7gcjl4",
+    "username": "amaqfwklqaivvy",
+    "password": "82aead1798cdafffcea8daae83321922d100c0b59c1fa47b317ed17266975e7b",
+    "ssl": "require"
+}
