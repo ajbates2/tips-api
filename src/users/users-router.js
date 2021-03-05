@@ -35,7 +35,7 @@ usersRouter
                             user_name,
                             password: hashedPassword,
                             email,
-                            date_created: 'now()',
+                            date_created: new Date()
                         }
 
                         return UsersService.insertUser(

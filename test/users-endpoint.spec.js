@@ -145,8 +145,8 @@ describe('Users Endpoints', function () {
                         expect(res.body.email).to.eql(newUser.email)
                         expect(res.body).to.have.property('password')
                         expect(res.headers.location).to.eql(`/api/users/${res.body.id}`)
-                        const expectedDate = new Date().toDateString()
-                        const actualDate = new Date(res.body.date_created).toDateString()
+                        const expectedDate = new Date().toLocaleDateString()
+                        const actualDate = new Date(res.body.date_created).toLocaleDateString('UTC')
                         expect(actualDate).to.eql(expectedDate)
                     })
                     .expect(res =>
