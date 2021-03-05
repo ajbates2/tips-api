@@ -2,12 +2,14 @@ const xss = require('xss')
 
 const PaychecksService = {
 
-    getByUserId(db, user_id) {
+    getAllChecks(db) {
         return db
             .from('tips_paychecks AS check')
             .select(
                 'check.id',
                 'check.check_total',
+                'check.work_month',
+                'check.work_year',
                 'check.date_received',
                 db.raw(
                     `json_strip_nulls(
@@ -18,25 +20,36 @@ const PaychecksService = {
                     ) AS "job"`
                 ),
             )
-            .where('check.user_id', user_id)
             .leftJoin(
                 'tips_jobs as job',
                 'check.job_id',
                 'job.id'
             )
             .groupBy('check.id', 'job.id')
+            .orderBy('check.date_received', 'DESC')
     },
 
-    getById(db, id) {
+    getByCheckId(db, id) {
         return db
-            .from('tips_shifts AS shift')
-            .select(
-                'shift.id',
-                'shift.user_id'
-            )
-            .where('shift.user_id', id)
+            .from('tips_paychecks AS check')
+            .where('check.id', id)
             .first()
+            .returning('*')
     },
+
+    updatePaycheck(db, newCheck) {
+		return db
+			.from('tips_paychecks as check')
+			.update({
+				check_total: newCheck.check_total,
+                date_received: newCheck.date_received,
+                job_id: newCheck.job_id
+			})
+			.where('check.id', newCheck.id)
+			.then(() => {
+				return this.getByCheckId(db, newCheck.id);
+			});
+	},
 
     insertCheckInfo(db, newCheckInfo) {
         return db
@@ -48,6 +61,17 @@ const PaychecksService = {
                 PaychecksService.getByUserId(db, checkData.user_id)
             )
     },
+
+    addDates(db, id, dates) {
+		return db
+			.from('tips_paychecks as check')
+			.where('check.id', id)
+			.returning('*')
+			.update({
+				work_month: dates.work_month,
+				work_year: dates.work_year
+		});
+	},
 
     deleteCheck(db, checkId) {
         return db
