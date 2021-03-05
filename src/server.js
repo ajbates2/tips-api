@@ -7,9 +7,8 @@ const { PORT, DATABASE_URL } = require('./config');
 const db = knex({
 	client: 'pg',
 	connection: DATABASE_URL,
-	pool: { min: 0, max: 50 },
-    searchPath: ['knex', 'public'],
-    debug: true,
+	pool: { min: 1, max: 50 },
+    acquireConnectionTimeout: 30000
 });
 
 app.set('db', db);
