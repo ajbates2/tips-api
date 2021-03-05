@@ -1,7 +1,7 @@
 const xss = require('xss');
 
 const ShiftsService = {
-	getAllShifts(db) {
+	getAllShifts(db, user_id) {
 		return db
 			.from('tips_shifts AS shift')
 			.select(
@@ -36,6 +36,7 @@ const ShiftsService = {
                     ) AS "role"`
 				)
 			)
+			.where('shift.user_id', user_id)
 			.leftJoin('tips_users as usr', 'shift.user_id', 'usr.id')
 			.leftJoin('tips_roles as role', 'shift.role_id', 'role.id')
 			.innerJoin('tips_jobs as job', 'role.job_id', 'job.id')
