@@ -54,7 +54,6 @@ describe('Paychecks Endpoints', function () {
                 .send(newPaycheck)
                 .expect(201)
                 .expect(res => {
-                    console.log(res.body)
                     expect(res.body).to.have.property('id')
                     expect(res.body.check_total).to.eql(newPaycheck.check_total)
                     expect(res.body.user_id).to.eql(testUser.id)

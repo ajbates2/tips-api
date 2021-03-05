@@ -8,6 +8,8 @@ const db = knex({
 	client: 'pg',
 	connection: DATABASE_URL,
 	pool: { min: 0, max: 50 },
+    searchPath: ['knex', 'public'],
+    debug: true,
 });
 
 app.set('db', db);
