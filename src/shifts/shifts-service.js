@@ -1,7 +1,7 @@
 const xss = require('xss');
 
 const ShiftsService = {
-	getAllShifts(db, user_id) {
+	getAllShifts(db) {
 		return db
 			.from('tips_shifts AS shift')
 			.select(
