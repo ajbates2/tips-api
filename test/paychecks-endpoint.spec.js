@@ -45,22 +45,24 @@ describe('Paychecks Endpoints', function () {
             const newPaycheck = {
                 check_total: '250.20',
                 date_received: new Date('2020-09-17T05:00:00.000Z'),
-                job_id: testJob.id
+                job_id: testJob.id,
+                user_id: testUser.id
             }
             return supertest(app)
                 .post('/api/paychecks')
-                .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                .set('Authorization', helpers.makeAuthHeader(testUser))
                 .send(newPaycheck)
                 .expect(201)
                 .expect(res => {
-                    expect(res.body[0]).to.have.property('id')
-                    expect(res.body[0].check_total).to.eql(newPaycheck.check_total)
-                    expect(res.body[0].user_id).to.eql(newPaycheck.user_id)
-                    expect(res.body[0].job.id).to.eql(newPaycheck.job_id)
+                    console.log(res.body)
+                    expect(res.body).to.have.property('id')
+                    expect(res.body.check_total).to.eql(newPaycheck.check_total)
+                    expect(res.body.user_id).to.eql(testUser.id)
+                    expect(res.body.job_id).to.eql(testJob.id)
                     const expectedDate = newPaycheck.date_received.toDateString()
-                    const actualDate = new Date(res.body[0].date_received).toDateString()
+                    const actualDate = new Date(res.body.date_received).toDateString()
                     expect(actualDate).to.eql(expectedDate)
-                    expect(res.headers.location).to.eql(`/api/paychecks/${res.body.user_id}`)
+                    expect(res.headers.location).to.eql(`/api/paychecks/${res.body.id}`)
                 })
         })
 

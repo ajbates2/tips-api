@@ -57,9 +57,6 @@ const PaychecksService = {
             .into('tips_paychecks')
             .returning('*')
             .then(([checkData]) => checkData)
-            .then(checkData =>
-                PaychecksService.getByUserId(db, checkData.user_id)
-            )
     },
 
     addDates(db, id, dates) {
