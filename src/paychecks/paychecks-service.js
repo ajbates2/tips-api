@@ -2,7 +2,7 @@ const xss = require('xss')
 
 const PaychecksService = {
 
-    getAllChecks(db) {
+    getAllChecks(db, user_id) {
         return db
             .from('tips_paychecks AS check')
             .select(
@@ -25,6 +25,7 @@ const PaychecksService = {
                 'check.job_id',
                 'job.id'
             )
+			.where('check.user_id', user_id)
             .groupBy('check.id', 'job.id')
             .orderBy('check.date_received', 'DESC')
     },
