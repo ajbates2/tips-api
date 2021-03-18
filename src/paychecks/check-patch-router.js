@@ -22,11 +22,13 @@ checkPatchRouter
 						'YYYY-MM-DD'
 					).format('YYYY');
 					const dates = { work_month, work_year };
-					PaychecksService.addDates(
-						req.app.get('db'),
-						check.id,
-						dates
-					).then(next);
+					if (!check.work_month) {
+						PaychecksService.addDates(
+							req.app.get('db'),
+							check.id,
+							dates
+						).then(next);
+					}
 				}
 				res.json('patched');
 			})

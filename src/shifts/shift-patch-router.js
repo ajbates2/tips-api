@@ -35,11 +35,13 @@ shiftPatchRouter
 						work_month,
 						work_year,
 					};
-					ShiftsService.addDates(
-						req.app.get('db'),
-						shift.id,
-						dates
-					).then(next);
+					if (!shift.date.work_day) {
+						ShiftsService.addDates(
+							req.app.get('db'),
+							shift.id,
+							dates
+						).then(next);
+					}
 				}
 				res.json('patched');
 			})
