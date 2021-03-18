@@ -20,12 +20,7 @@ const morganOption = NODE_ENV === 'production' ? 'tiny' : 'dev';
 app.use(morgan(morganOption));
 app.use(helmet());
 
-const corsOptions = {
-	origin: true,
-	methods: ['GET', 'PATCH', 'POST', 'DELETE'],
-	allowedHeaders: 'Content-Type,Authorization'
-}
-app.use(cors(corsOptions))
+app.use(cors())
 
 app.get('/', (req, res) => {
 	res.send('Hello, Boilerplate!');
