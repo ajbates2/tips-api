@@ -21,8 +21,8 @@ app.use(morgan(morganOption));
 app.use(helmet());
 
 const corsOptions = {
-	origin: /tipsdontlie\.com$/,
-	methods: ['GET', 'PUT', 'POST'],
+	origin: true,
+	methods: ['GET', 'PATCH', 'POST', 'DELETE'],
 	allowedHeaders: 'Content-Type,Authorization'
 }
 app.use(cors(corsOptions))
