@@ -21,7 +21,6 @@ usersRouter
         if (passwordError)
             return res.status(400).json({ error: passwordError })
 
-        res.set('Access-Control-Allow-Origin', '*')
         UsersService.hasUserWithEmail(
             req.app.get('db'),
             email
@@ -59,7 +58,7 @@ usersRouter
 usersRouter
     .route('/:user_id')
     .get((req, res, next) => {
-        res.set('Access-Control-Allow-Origin', '*')
+        
         Promise.all([
             UsersService.getUserData(req.app.get('db'), req.params.user_id),
             UsersService.getJobData(req.app.get('db'), req.params.user_id),

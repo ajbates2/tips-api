@@ -20,7 +20,9 @@ const morganOption = NODE_ENV === 'production' ? 'tiny' : 'dev';
 app.use(morgan(morganOption));
 app.use(helmet());
 
-app.use(cors())
+app.use(
+	cors({ origin: 'https://www.tipsdontlie.com/', optionsSuccessStatus: 200 })
+);
 
 app.get('/', (req, res) => {
 	res.send('Hello, Boilerplate!');
