@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const ShiftsService = require('./shifts-service');
 const { requireAuth } = require('../middleware/jwt-auth');
+const moment = require('moment');
 
 const shiftsRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -34,7 +35,17 @@ shiftsRouter
 	.all(requireAuth)
 	.post(jsonBodyParser, (req, res, next) => {
 		const { tips, hours, date_worked, job_id, role_id } = req.body;
-		const newShift = { tips, hours, date_worked, job_id, role_id };
+		const newShift = {
+			tips,
+			hours,
+			date_worked,
+			job_id,
+			role_id,
+			work_day: moment(date_worked, 'YYYY-MM-DD').format('DDDDYYYY'),
+			work_week: moment(date_worked, 'YYYY-MM-DD').format('WWYYYY'),
+			work_month: moment(date_worked, 'YYYY-MM-DD').format('MMYYYY'),
+			work_year: moment(date_worked, 'YYYY-MM-DD').format('YYYY')
+		};
 
 		for (const [key, value] of Object.entries(newShift))
 			if (value == null)
