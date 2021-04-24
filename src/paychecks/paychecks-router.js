@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const { requireAuth } = require('../middleware/jwt-auth');
 const PaychecksService = require('./paychecks-service');
+const moment = require('moment');
 
 const paychecksRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -34,7 +35,13 @@ paychecksRouter
 	.all(requireAuth)
 	.post(jsonBodyParser, (req, res, next) => {
 		const { check_total, date_received, job_id } = req.body;
-		const newCheck = { check_total, date_received, job_id };
+		const newCheck = {
+			check_total,
+			date_received,
+			job_id,
+			work_month: moment(date_received, 'YYYY-MM-DD').format('MMYYYY'),
+			work_year: moment(date_received, 'YYYY-MM-DD').format('YYYY'),
+		};
 
 		for (const [key, value] of Object.entries(newCheck))
 			if (value == null)
@@ -86,7 +93,7 @@ paychecksRouter
 				});
 
 		updatedCheck.user_id = req.user.id;
-		updatedCheck.id = req.params.checkId
+		updatedCheck.id = req.params.checkId;
 
 		PaychecksService.updatePaycheck(req.app.get('db'), updatedCheck)
 			.then((check) => {
